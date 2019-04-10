@@ -62,7 +62,7 @@ class PublicFeed < Feed
   end
 
   def local_only_scope
-    Status.local
+    Status.as_tag_timeline(Rails.configuration.x.default_hashtag_id, @account, false)
   end
 
   def remote_only_scope
