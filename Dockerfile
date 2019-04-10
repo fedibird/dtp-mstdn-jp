@@ -122,9 +122,12 @@ RUN dpkgArch="$(dpkg --print-architecture)" && \
 COPY --chown=mastodon:mastodon . /opt/mastodon
 COPY --from=build-dep --chown=mastodon:mastodon /opt/mastodon /opt/mastodon
 
+ARG DEFAULT_HASHTAG
+
 # Run mastodon services in prod mode
 ENV RAILS_ENV="production"
 ENV NODE_ENV="production"
+ENV DEFAULT_HASHTAG=$DEFAULT_HASHTAG
 
 # Tell rails to serve static files
 ENV RAILS_SERVE_STATIC_FILES="true"

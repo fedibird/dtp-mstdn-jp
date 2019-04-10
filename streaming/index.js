@@ -749,7 +749,7 @@ const startWorker = (workerId) => {
       break;
     case 'public:local':
       resolve({
-        channelIds: ['timeline:public:local'],
+        channelIds: [`timeline:hashtag:${process.env.DEFAULT_HASHTAG.toLowerCase()}`],
         options: { needsFiltering: true, notificationOnly: false },
       });
 
