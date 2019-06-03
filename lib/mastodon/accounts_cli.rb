@@ -372,6 +372,35 @@ module Mastodon
       say("OK, unfollowed target from #{processed} accounts, skipped #{failed}", :green)
     end
 
+    desc 'set-post-language [USERNAME]', 'Set language settings for posting'
+    long_desc <<-LONG_DESC
+      Set the language setting used for posts to the language actually used for posts.
+    LONG_DESC
+    def set_post_language(username = nil)
+      if username.present?
+        account = Account.find_local(username)
+        if account.nil?
+          say('No user with such username', :red)
+          exit(1)
+        end
+        accounts = [account]
+      else
+        Account.local.find_in_batches do |accounts|
+          accounts.each do |account|
+            if !account.user.setting_default_language.presence && account.statuses_count > 20
+              language_count = account.statuses.without_reblogs.limit(10).reorder('count_all desc').group(:language).count
+              default_language, second_language = language_count.keys.take(2)
+              if language_count.values.sum > 20 && (second_language == nil || 1 - language_count[second_language] / language_count[default_language].to_f > 0.9)
+                say("#{account.username}: all #{language_count.values.sum}, #{default_language} #{language_count[default_language]}, #{second_language} #{language_count[second_language]}, rate #{(1 - language_count[second_language] / language_count[default_language]) * 100}%")
+              end
+            end
+          end
+        end
+      end
+
+
+    end
+
     option :follows, type: :boolean, default: false
     option :followers, type: :boolean, default: false
     desc 'reset-relationships USERNAME', 'Reset all follows and/or followers for a user'
