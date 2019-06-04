@@ -407,6 +407,7 @@ module Mastodon
         accounts.each do |account|
           current_language = account.user&.setting_default_language&.presence
           next unless from == :any || from == current_language
+          next unless account.statuses_count > 0
 
           language_count = account.statuses.without_reblogs.limit(10).reorder('count_all desc').group(:language).count
           first_language, second_language = language_count.keys.take(2)
