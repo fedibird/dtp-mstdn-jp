@@ -412,14 +412,14 @@ module Mastodon
           first_language, second_language = language_count.keys.take(2)
           rate = second_language.nil? ? 100.0 : 100.0 - language_count[second_language] * 100.0 / language_count[first_language]
           total = language_count.values.sum
-          additional_info = ''
+          additional_info = ''.dup
 
           if options[:verbose]
             additional_info << " #{account.username}: total #{total},"
             additional_info << " #{current_language || :auto} -> #{to},"
             additional_info << " #{first_language} #{language_count[first_language]},"
             additional_info << " #{second_language} #{language_count[second_language]}," unless second_language.nil?
-            additional_info << " rate #{rate.round(2)}%"
+            additional_info << " rate #{rate.round(2)}%\n"
           end
 
           if total >= options[:min] && rate > options[:rate]
