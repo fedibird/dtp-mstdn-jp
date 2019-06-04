@@ -372,33 +372,77 @@ module Mastodon
       say("OK, unfollowed target from #{processed} accounts, skipped #{failed}", :green)
     end
 
-    desc 'set-post-language [USERNAME]', 'Set language settings for posting'
+    option :from, type: :string, default: :auto
+    option :min, type: :numeric, default: 100
+    option :rate, type: :numeric, default: 99.5
+    option :to, type: :string, default: :actual
+    option :dry_run, type: :boolean
+    option :verbose, type: :boolean, alieses: [:v]
+    desc 'reset-post-language [USERNAME]', 'Reset language settings for posting'
     long_desc <<-LONG_DESC
-      Set the language setting used for posts to the language actually used for posts.
+      Reset the language setting used for posts to the language actually used for posts.
+
+      With the --dry-run option, 
     LONG_DESC
-    def set_post_language(username = nil)
+    def reset_post_language(username = nil)
       if username.present?
-        account = Account.find_local(username)
-        if account.nil?
+        target_account = Account.find_local(username)
+        if target_account.nil?
           say('No user with such username', :red)
           exit(1)
         end
-        accounts = [account]
+        accounts = [target_account]
       else
-        Account.local.find_in_batches do |accounts|
-          accounts.each do |account|
-            if !account.user.setting_default_language.presence && account.statuses_count > 20
-              language_count = account.statuses.without_reblogs.limit(10).reorder('count_all desc').group(:language).count
-              default_language, second_language = language_count.keys.take(2)
-              if language_count.values.sum > 20 && (second_language == nil || 1 - language_count[second_language] / language_count[default_language].to_f > 0.9)
-                say("#{account.username}: all #{language_count.values.sum}, #{default_language} #{language_count[default_language]}, #{second_language} #{language_count[second_language]}, rate #{(1 - language_count[second_language] / language_count[default_language]) * 100}%")
-              end
-            end
+        accounts = Account.local
+      end
+
+      processed = 0
+
+      from = options[:from] == :auto ? nil : options[:from]
+      to   = options[:to]   == :auto ? nil : options[:to]
+
+      if to == :actual
+        accounts.each do |account|
+          current_language = account.user&.setting_default_language&.presence
+          next unless from == :any || from == current_language
+
+          language_count = account.statuses.without_reblogs.limit(10).reorder('count_all desc').group(:language).count
+          first_language, second_language = language_count.keys.take(2)
+          rate = second_language.nil? ? 100.0 : 100.0 - language_count[second_language] * 100.0 / language_count[first_language]
+          total = language_count.values.sum
+          additional_info = ''
+
+          if options[:verbose]
+            additional_info << " #{account.username}: total #{total},"
+            additional_info << " #{current_language || :auto} -> #{to},"
+            additional_info << " #{first_language} #{language_count[first_language]},"
+            additional_info << " #{second_language} #{language_count[second_language]}," unless second_language.nil?
+            additional_info << " rate #{rate.round(2)}%"
           end
+
+          if total >= options[:min] && rate > options[:rate]
+            account.user.settings['default_language'] = first_language unless options[:dry_run]
+            processed += 1
+            say("+#{additional_info}", :green, false)
+          else
+            say(".#{additional_info}", nil, false)
+          end
+        end
+      else
+        accounts.each do |account|
+          next unless [:any, account.user&.setting_default_language&.presence].include? from
+
+          account.user.settings['default_language'] = to unless options[:dry_run]
+          processed += 1
+          say('+', :green, false)
         end
       end
 
-
+      if processed.zero?
+        say('There was no account to set.')
+      else
+        say("Set #{processed} accounts.#{dry_run}", :green)
+      end
     end
 
     option :follows, type: :boolean, default: false
