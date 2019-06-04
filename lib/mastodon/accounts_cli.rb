@@ -398,6 +398,8 @@ module Mastodon
 
       processed = 0
 
+      dry_run        = options[:dry_run] ? ' (DRY RUN)' : ''
+
       from = options[:from] == :auto ? nil : options[:from]
       to   = options[:to]   == :auto ? nil : options[:to]
 
