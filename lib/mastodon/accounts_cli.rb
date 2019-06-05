@@ -409,7 +409,7 @@ module Mastodon
           next unless (from == :any || from == current_language)
           next unless account.statuses_count.positive?
 
-          language_count = account.statuses.without_reblogs.limit(10).reorder('count_all desc').group(:language).count
+          language_count = account.statuses.without_reblogs.reorder('count_all desc').group(:language).count
           first_language, second_language = language_count.keys.take(2)
           rate = second_language.nil? ? 100.0 : 100.0 - language_count[second_language] * 100.0 / language_count[first_language]
           total = language_count.values.sum
@@ -417,7 +417,7 @@ module Mastodon
 
           if options[:verbose]
             additional_info << format('%-20.20s', " #{account.username}:")
-            additional_info << " [#{current_language || :auto} -> #{to}]"
+            additional_info << " [#{current_language || :auto} -> "<< format('%6s', "(#{first_language || :auto})" << ')]'
             additional_info << " rate #{rate.round(2)}%,"
             language_count.each { |language, count| additional_info << " #{language}(#{count})," }
             additional_info << " total(#{total})\n"
