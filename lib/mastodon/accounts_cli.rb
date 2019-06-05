@@ -398,7 +398,7 @@ module Mastodon
 
       processed = 0
 
-      dry_run        = options[:dry_run] ? ' (DRY RUN)' : ''
+      dry_run = options[:dry_run] ? ' (DRY RUN)' : ''
 
       from = options[:from] == :auto ? nil : options[:from]
       to   = options[:to]   == :auto ? nil : options[:to]
@@ -407,7 +407,7 @@ module Mastodon
         accounts.each do |account|
           current_language = account.user&.setting_default_language&.presence
           next unless from == :any || from == current_language
-          next unless account.statuses_count > 0
+          next unless account.statuses_count.positive?
 
           language_count = account.statuses.without_reblogs.limit(10).reorder('count_all desc').group(:language).count
           first_language, second_language = language_count.keys.take(2)
@@ -416,9 +416,10 @@ module Mastodon
           additional_info = ''.dup
 
           if options[:verbose]
-            additional_info << " #{account.username}: total #{total},"
-            additional_info << " #{current_language || :auto} -> #{to},"
-            additional_info << " #{first_language} #{language_count[first_language]},"
+            additional_info << format('%-32s', " #{account.username}:")
+            additional_info << " [#{current_language || :auto} -> #{to}]"
+            additional_info << " total #{total},"
+            additional_info << " #{first_language} #{language_count[first_language]}," unless first_language.nil?
             additional_info << " #{second_language} #{language_count[second_language]}," unless second_language.nil?
             additional_info << " rate #{rate.round(2)}%\n"
           end
