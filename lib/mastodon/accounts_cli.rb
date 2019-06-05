@@ -406,7 +406,7 @@ module Mastodon
       if to == :actual
         accounts.each do |account|
           current_language = account.user&.setting_default_language&.presence
-          next unless [:any, current_language].include? from
+          next unless (from == :any || from == current_language)
           next unless account.statuses_count.positive?
 
           language_count = account.statuses.without_reblogs.limit(10).reorder('count_all desc').group(:language).count
@@ -418,9 +418,9 @@ module Mastodon
           if options[:verbose]
             additional_info << format('%-20.20s', " #{account.username}:")
             additional_info << " [#{current_language || :auto} -> #{to}]"
-            additional_info << " rate #{rate.round(2)}%\n,"
+            additional_info << " rate #{rate.round(2)}%,"
             language_count.each { |language, count| additional_info << " #{language}(#{count})," }
-            additional_info << " total(#{total})"
+            additional_info << " total(#{total})\n"
           end
 
           if total >= options[:min] && rate > options[:rate]
