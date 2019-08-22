@@ -405,6 +405,15 @@ ActiveRecord::Schema.define(version: 2020_09_17_222734) do
     t.index ["from_account_id"], name: "index_encrypted_messages_on_from_account_id"
   end
 
+  create_table "favourite_tags", force: :cascade do |t|
+    t.bigint "account_id"
+    t.bigint "tag_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_favourite_tags_on_account_id"
+    t.index ["tag_id"], name: "index_favourite_tags_on_tag_id"
+  end
+
   create_table "favourites", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
