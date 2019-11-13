@@ -16,6 +16,7 @@ class BatchedRemoveStatusService < BaseService
 
     @mentions = statuses.each_with_object({}) { |s, h| h[s.id] = s.active_mentions.includes(:account).to_a }
     @tags     = statuses.each_with_object({}) { |s, h| h[s.id] = s.tags.pluck(:name) }
+    @domains  = statuses.each_with_object({}) { |s, h| h[s.id] = s.account.domain unless s.local? }
 
     @json_payloads = statuses.each_with_object({}) { |s, h| h[s.id] = Oj.dump(event: :delete, payload: s.id.to_s) }
 
@@ -76,6 +77,7 @@ class BatchedRemoveStatusService < BaseService
         redis.publish('timeline:public:local', payload)
       else
         redis.publish('timeline:public:remote', payload)
+        redis.publish("timeline:public:remote:#{domain.mb_chars.downcase}", payload)
       end
       if status.media_attachments.any?
         redis.publish('timeline:public:media', payload)
@@ -83,6 +85,7 @@ class BatchedRemoveStatusService < BaseService
           redis.publish('timeline:public:local:media', payload)
         else
           redis.publish('timeline:public:remote:media', payload)
+          redis.publish("timeline:public:remote:media:#{domain.mb_chars.downcase}", payload)
         end
       end
 
