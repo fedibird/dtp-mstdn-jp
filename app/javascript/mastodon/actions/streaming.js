@@ -126,6 +126,15 @@ export const connectCommunityStream = ({ onlyMedia } = {}) =>
   connectTimelineStream(`community${onlyMedia ? ':media' : ''}`, `public:local${onlyMedia ? ':media' : ''}`);
 
 /**
+ * @param {String} domain
+ * @param {Object} options
+ * @param {boolean} [options.onlyMedia]
+ * @return {function(): void}
+ */
+export const connectDomainStream = (domain, { onlyMedia } = {}) =>
+  connectTimelineStream(`domain${onlyMedia ? ':media' : ''}:${domain}`, `public:remote${onlyMedia ? ':media' : ''}&domain=${domain}`);
+
+/**
  * @param {Object} options
  * @param {boolean} [options.onlyMedia]
  * @param {boolean} [options.onlyRemote]
