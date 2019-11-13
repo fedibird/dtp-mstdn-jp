@@ -715,6 +715,7 @@ const startWorker = (workerId) => {
    * @typedef StreamParams
    * @property {string} [tag]
    * @property {string} [list]
+   * @property {string} [domain]
    * @property {string} [only_media]
    */
 
@@ -761,6 +762,17 @@ const startWorker = (workerId) => {
       });
 
       break;
+    case 'public:domain':
+      if (!params.domain || params.domain.length === 0) {
+        reject('No domain for stream provided');
+      } else {
+        resolve({
+          channelIds: [`timeline:public:domain:${params.domain.toLowerCase()}`],
+          options: { needsFiltering: true, notificationOnly: false },
+        });
+      }
+
+      break;
     case 'public:media':
       resolve({
         channelIds: ['timeline:public:media'],
@@ -780,6 +792,17 @@ const startWorker = (workerId) => {
         channelIds: ['timeline:public:remote:media'],
         options: { needsFiltering: true, notificationOnly: false },
       });
+
+      break;
+    case 'public:domain:media':
+      if (!params.domain || params.domain.length === 0) {
+        reject('No domain for stream provided');
+      } else {
+        resolve({
+          channelIds: [`timeline:public:domain:media:${params.domain.toLowerCase()}`],
+          options: { needsFiltering: true, notificationOnly: false },
+        });
+      }
 
       break;
     case 'direct':
