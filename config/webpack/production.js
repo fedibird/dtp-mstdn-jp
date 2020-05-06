@@ -21,6 +21,12 @@ if (process.env.S3_ENABLED === 'true') {
 } else if (process.env.SWIFT_ENABLED === 'true') {
   const { host } = new URL(process.env.SWIFT_OBJECT_URL);
   attachmentHost = host;
+} else if (process.env.NDFS_ENABLED === 'true') {
+  if (process.env.S3_ALIAS_HOST || process.env.S3_CLOUDFRONT_HOST) {
+    attachmentHost = process.env.S3_ALIAS_HOST || process.env.S3_CLOUDFRONT_HOST;
+  } else {
+    attachmentHost = null;
+  }
 } else {
   attachmentHost = null;
 }

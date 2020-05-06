@@ -77,12 +77,16 @@ elsif ENV['SWIFT_ENABLED'] == 'true'
     fog_public: true
   )
 elsif ENV['NDFS_ENABLED'] == 'true'
+  s3_protocol   = ENV.fetch('S3_PROTOCOL') { 'https' }
+  s3_host_alias = ENV['S3_ALIAS_HOST'] || ENV['S3_CLOUDFRONT_HOST']
+  s3_host       = "#{s3_protocol}://#{s3_host_alias}" if s3_host_alias.present?
+
   Paperclip::Attachment.default_options.merge!(
     storage: :non_delete_filesystem,
     use_timestamp: true,
     path: (ENV['PAPERCLIP_ROOT_PATH'] || ':rails_root/public/system') + '/:class/:attachment/:id_partition/:style/:filename',
-    url: (ENV['PAPERCLIP_ROOT_URL'] || '/system') + '/:class/:attachment/:id_partition/:style/:filename',
-  )
+    url: (s3_host || ENV['PAPERCLIP_ROOT_URL'] || '/system') + '/:class/:attachment/:id_partition/:style/:filename',
+)
 else
   Paperclip::Attachment.default_options.merge!(
     storage: :filesystem,
