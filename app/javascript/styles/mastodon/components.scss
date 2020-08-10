@@ -1967,6 +1967,14 @@ a.account__display-name {
   vertical-align: middle;
 }
 
+.layout-multiple-columns .columns-area__panels__pane {
+  height: auto;
+
+  &__inner {
+    position: static;
+  }
+}
+
 .columns-area {
   display: flex;
   flex: 1 1 auto;
