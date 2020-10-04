@@ -955,7 +955,7 @@
   dependencies:
     regenerator-runtime "^0.12.0"
 
-"@babel/runtime@^7.1.2", "@babel/runtime@^7.10.2", "@babel/runtime@^7.10.3", "@babel/runtime@^7.11.2", "@babel/runtime@^7.2.0", "@babel/runtime@^7.4.4", "@babel/runtime@^7.5.5", "@babel/runtime@^7.6.3", "@babel/runtime@^7.7.2", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.2":
+"@babel/runtime@^7.1.2", "@babel/runtime@^7.10.2", "@babel/runtime@^7.10.3", "@babel/runtime@^7.11.2", "@babel/runtime@^7.2.0", "@babel/runtime@^7.3.1", "@babel/runtime@^7.4.4", "@babel/runtime@^7.5.5", "@babel/runtime@^7.6.3", "@babel/runtime@^7.7.2", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.2":
   version "7.11.2"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.11.2.tgz#f549c13c754cc40b87644b9fa9f09a6a95fe0736"
   integrity sha512-TeWkU52so0mPtDcaCTxNBI/IHiz0pZgr8VEFqXFtZWpYD08ZB6FaSwVAS8MKRQAP3bYKiVjwysOJgMFY28o6Tw==
@@ -3099,7 +3099,7 @@ core-js-pure@^3.0.0:
   resolved "https://registry.yarnpkg.com/core-js-pure/-/core-js-pure-3.6.5.tgz#c79e75f5e38dbc85a662d91eea52b8256d53b813"
   integrity sha512-lacdXOimsiD0QyNf9BC/mxivNJ/ybBGJXQFKzRekp1WTHoVUWsUHEn+2T8GJAzzIhyOuXA+gOxCVN3l+5PLPUA==
 
-core-js@^2.4.0:
+core-js@^2.4.0, core-js@^2.5.0:
   version "2.6.11"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.11.tgz#38831469f9922bded8ee21c9dc46985e0399308c"
   integrity sha512-5wjnpaT/3dV+XB4borEsnAYQchn00XSgTAWKDkEqv+K8KevjbzmofK6hfJ9TZIlpj2N0xQpazy7PiRQiWHqzWg==
@@ -8446,7 +8446,7 @@ punycode@1.3.2:
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-1.3.2.tgz#9653a036fb7c1ee42342f2325cceefea3926c48d"
   integrity sha1-llOgNvt8HuQjQvIyXM7v6jkmxI0=
 
-punycode@1.4.1, punycode@^1.2.4, punycode@^1.4.1:
+punycode@1.4.1, punycode@^1.2.4:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-1.4.1.tgz#c0d5a63b2718800ad8e1eb0fa5269c84dd41845e"
   integrity sha1-wNWmOycYgArY4esPpSachN1BhF4=
@@ -9460,6 +9460,11 @@ send@0.17.1:
     on-finished "~2.3.0"
     range-parser "~1.2.1"
     statuses "~1.5.0"
+
+serialize-javascript@^1.7.0:
+  version "1.9.1"
+  resolved "https://registry.yarnpkg.com/serialize-javascript/-/serialize-javascript-1.9.1.tgz#cfc200aef77b600c47da9bb8149c943e798c2fdb"
+  integrity sha512-0Vb/54WJ6k5v8sSWN09S0ora+Hnr+cX40r9F170nT+mSkaxltoE/7R3OrIdBSUv1OoiobH1QoWQbCnAO+e8J1A==
 
 serialize-javascript@^2.1.2:
   version "2.1.2"
@@ -10487,11 +10492,27 @@ tweetnacl@^0.14.3, tweetnacl@~0.14.0:
   resolved "https://registry.yarnpkg.com/tweetnacl/-/tweetnacl-0.14.5.tgz#5ae68177f192d4456269d108afa93ff8743f4f64"
   integrity sha1-WuaBd/GS1EViadEIr6k/+HQ/T2Q=
 
-twitter-text@^2.0.4:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/twitter-text/-/twitter-text-2.0.4.tgz#c4ba67e0ed8eb9cd6998921fd4e53c6a82798943"
+twemoji-parser@^11.0.2:
+  version "11.0.2"
+  resolved "https://registry.yarnpkg.com/twemoji-parser/-/twemoji-parser-11.0.2.tgz#24e87c2008abe8544c962f193b88b331de32b446"
+  integrity sha512-5kO2XCcpAql6zjdLwRwJjYvAZyDy3+Uj7v1ipBzLthQmDL7Ce19bEqHr3ImSNeoSW2OA8u02XmARbXHaNO8GhA==
+
+twitter-text@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/twitter-text/-/twitter-text-3.1.0.tgz#798e932b289f506efe2a1f03fe917ba30627f125"
+  integrity sha512-nulfUi3FN6z0LUjYipJid+eiwXvOLb8Ass7Jy/6zsXmZK3URte043m8fL3FyDzrK+WLpyqhHuR/TcARTN/iuGQ==
   dependencies:
+    "@babel/runtime" "^7.3.1"
+    core-js "^2.5.0"
     punycode "1.4.1"
+    twemoji-parser "^11.0.2"
+
+type-check@^0.4.0, type-check@~0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/type-check/-/type-check-0.4.0.tgz#07b8203bfa7056c0657050e3ccd2c37730bab8f1"
+  integrity sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew==
+  dependencies:
+    prelude-ls "^1.2.1"
 
 type-check@~0.3.2:
   version "0.3.2"
@@ -10549,6 +10570,26 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
+
+uglify-js@^3.6.0:
+  version "3.11.0"
+  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.11.0.tgz#67317658d76c21e0e54d3224aee2df4ee6c3e1dc"
+  integrity sha512-e1KQFRCpOxnrJsJVqDUCjURq+wXvIn7cK2sRAx9XL3HYLL9aezOP4Pb1+Y3/o693EPk111Yj2Q+IUXxcpHlygQ==
+
+uglifyjs-webpack-plugin@^2.1.2:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/uglifyjs-webpack-plugin/-/uglifyjs-webpack-plugin-2.2.0.tgz#e75bc80e7f1937f725954c9b4c5a1e967ea9d0d7"
+  integrity sha512-mHSkufBmBuJ+KHQhv5H0MXijtsoA1lynJt1lXOaotja8/I0pR4L9oGaPIZw+bQBOFittXZg9OC1sXSGO9D9ZYg==
+  dependencies:
+    cacache "^12.0.2"
+    find-cache-dir "^2.1.0"
+    is-wsl "^1.1.0"
+    schema-utils "^1.0.0"
+    serialize-javascript "^1.7.0"
+    source-map "^0.6.1"
+    uglify-js "^3.6.0"
+    webpack-sources "^1.4.0"
+    worker-farm "^1.7.0"
 
 unicode-canonical-property-names-ecmascript@^1.0.4:
   version "1.0.4"
@@ -10853,6 +10894,11 @@ watchpack@^1.7.4:
   optionalDependencies:
     chokidar "^3.4.1"
     watchpack-chokidar2 "^2.0.0"
+
+wavesurfer.js@^3.3.1:
+  version "3.3.3"
+  resolved "https://registry.yarnpkg.com/wavesurfer.js/-/wavesurfer.js-3.3.3.tgz#9b16a62335c6bd13a3d55deb895a336d027ccb51"
+  integrity sha512-meko20S9in+V5xBLSVV/9uYVBSbx5AsJNkAslZ+a5yYIeFGYwcCo4Yd1sUpSGaiNnyflzrJwC7x7TdJFYrdT8w==
 
 wbuf@^1.1.0, wbuf@^1.7.3:
   version "1.7.3"
