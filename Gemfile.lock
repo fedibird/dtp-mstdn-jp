@@ -95,7 +95,7 @@ GEM
     aws-sigv4 (1.2.2)
       aws-eventstream (~> 1, >= 1.0.2)
     bcrypt (3.1.16)
-    better_errors (2.8.1)
+    better_errors (2.8.3)
       coderay (>= 1.0.0)
       erubi (>= 1.0.0)
       rack (>= 0.9.0)
@@ -693,7 +693,7 @@ DEPENDENCIES
   capistrano-yarn (~> 2.0)
   capybara (~> 3.33)
   charlock_holmes (~> 0.7.7)
-  chewy!
+  chewy (~> 5.1)
   cld3 (~> 3.3.0)
   climate_control (~> 0.2)
   color_diff (~> 0.1)
