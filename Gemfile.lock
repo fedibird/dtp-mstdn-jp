@@ -745,6 +745,7 @@ DEPENDENCIES
   omniauth (~> 1.9)
   omniauth-cas (~> 1.1)
   omniauth-saml (~> 1.10)
+  openssl (~> 2.2)
   ox (~> 2.13)
   paperclip (~> 6.0)
   paperclip-av-transcoder (~> 0.6)
@@ -802,3 +803,9 @@ DEPENDENCIES
   webmock (~> 3.9)
   webpacker (~> 5.2)
   webpush
+
+RUBY VERSION
+   ruby 2.6.6p146
+
+BUNDLED WITH
+   2.0.2
