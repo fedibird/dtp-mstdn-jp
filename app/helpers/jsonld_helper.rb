@@ -63,8 +63,8 @@ module JsonLdHelper
     graph.dump(:normalize)
   end
 
-  def fetch_resource(uri, id, on_behalf_of = nil)
-    unless id
+  def fetch_resource(uri, id_is_known, on_behalf_of = nil, request_options: {})
+    unless id_is_known
       json = fetch_resource_without_id_validation(uri, on_behalf_of)
 
       return unless json
